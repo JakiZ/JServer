@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<country>
+    <province name="安徽">
+        <city>池州</city>
+        <city>合肥</city>
+        <city>滁州</city>
+        <city>铜陵</city>
+        <city>淮南</city>
+        <city>淮北</city>
+    </province>
+    <province name="江苏">
+        <city>苏州</city>
+        <city>南京</city>
+        <city>无锡</city>
+        <city>常州</city>
+        <city>扬州</city>
+        <city>镇江</city>
+    </province>
+    <province name="浙江">
+        <city>温州</city>
+        <city>杭州</city>
+        <city>衢州</city>
+        <city>丽水</city>
+        <city>湖州</city>
+    </province>
+</country>

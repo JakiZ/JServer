@@ -1,0 +1,15 @@
+1、Cookie是一个键值对，由服务端创建，用Header（Set-Cookie）携带并存储在客户端，客户端会再将Cookie用hHader带回服务端
+    resp.addHeader("Set-Cookie","key=value");
+    resp.addCookie(Cookie cookie);
+    req.getCookies()
+2、Cookie的有效时间
+    MaxAge > 0 存储在硬盘，有效期为MaxAge，单位：秒
+    MaxAge < 0 存储内存，有效期为浏览器关闭前
+    MaxAge = 0 浏览器不存储该Cookie
+3、Cookie的路径
+    Path 和Cookie的保存路径无关，是由服务器设置
+    如果浏览器访问的路径 包含 该Path值，则本次请求携带Cookie回传到服务端；否则不携带Cookie
+4、domain Cookie的域
+    设置一个字符串，当访问地址和该字符串有相同部分时，可以共享Cookie
+    cookie.setDomain("baidu.com");
+    这样的当访问 www.baidu.com / map.baidu.com时，可以访问共同的cookie

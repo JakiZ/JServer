@@ -1,0 +1,23 @@
+1、不要在Servlet创建有状态成员，可以创建局部变量，如果要创建有状态成员，该成员只能是只读的
+2、一个Servlet可有有多个访问路径，即配置多个url-pattern
+    url-pattern可以使用通配符*，进行匹配：
+    /xx/* 可以匹配 /xx/a 、/xx/b等
+    *.xx 可匹配/xx/a.xx 、 /b.xx
+    /* 匹配所有地址
+3、ServletContext
+    一个项目只有ServletContext，服务器启动时创建，关闭时销毁；
+    可以利用它在各个Servlet间传递数据
+4、JavaWeb四大域对象
+    PageContext
+    ServletRequest
+    HttpSession
+    ServletContext
+5、响应头
+    expires 缓存有效时间，long型，一般取负值
+    location 重定向
+    refresh 定时刷新
+    cache-control pragma
+6、Servlet三大域
+    HttpRequest request 一个请求
+    HttpSession session 一个用户的所有会话
+    ServletContext application 一个项目

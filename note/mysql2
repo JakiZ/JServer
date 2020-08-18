@@ -1,0 +1,12 @@
+mysql -u root;
+show databases;
+create database mq;
+show databases;
+use mq;
+show tables;
+create table student (id int,name varchar(15),age int);
+insert into student (id,name,age) values(1,'jaki',18),(2,"lucy",22),(3,"joddy",44);
+update student set age = 19 where id = 1;
+delete from student where id = 1;
+select * from student;
+rename table student to stu;

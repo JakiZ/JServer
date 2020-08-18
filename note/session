@@ -1,0 +1,21 @@
+1、Session 表征一个用户的所有对话，保存在服务器端，依赖于Cookie或者URL重写
+    HttpSession session = request.getSession();
+    HttpSession session = request.getSession(true);
+2、当进行网络请求时，不会创建Session，只有当调用request.getSession()时，才会在服务端创建Session，
+    并把它存在Cookie中，JSESSIONID=xxxxxxxxxxxxxxx
+    如果通过JSESSIONID存在，则查找到该值，否则创建并存储
+
+3、jsp会自动调用request.getSession();
+4、request.getSession(false);
+    如果根据JSESSIONID没有找到Session，不创建Session
+5、  session.getId() - 获取Session id
+     session.setMaxInactiveInterval(int ) - 获取session的有效时间
+     session.invalidate() - 设置session失效
+     session.isNew() - 判断session是否是新的，第一次获取session时
+
+6、url重写：在所有的url上携带JSESSIONID；
+    如:http://www.xx.com;JSESSIONID=xxxxxxxxxxxxxxxx
+
+    resp.encodeURL(String url)
+     先查看Cookie是否存在，如果不存在在指定的url地址后添加JSESSIONID参数
+     如果存在，不会添加任何东西

@@ -1,0 +1,298 @@
+jsp java server page
+1、jsp = html + java脚本 + jsp标签
+2、java脚本
+    2.1 <% %> java代码片段，只能是语句
+    2.2 <%= %> java表达式，用于输出一个结果
+    2.3 <%! %> java声明 创建类 或者 方法
+3、三大指令
+    一个页面可以有零个或多个三大指令
+    3.1 page   <%@page language="java" %>
+        pageEncoding 指定当前页面的编码
+        contentType 和pageEncoding值一样
+        language 当前页面编码语言
+        import 导入包，如jdk包
+        errorPage 当前页面如果抛出异常，则跳转到哪个页面
+        isErrorPage 指定的当前页面是否是处理错误页面
+        autoFlush jsp输入流缓冲区满时，是否自动刷新，默认true，为false时，满则抛出异常
+        buffer 设置缓冲区大小，默认8kb，一般不需要修改
+        isELIgnored 是否忽略EL表达式，默认值false
+        isThreadSafe 是否支持并发访问
+        session 当前页面是否支持session
+    3.2 include
+        和RequestDispatcher.include()相似，
+        include指令是在jsp编译成java文件时，完成合并，共同生成一个java文件，然后生成一个.class
+        include()方法是在运行时，合并两个servlet的运行效果
+    3.3 taglib 导入标签库
+        prefix 指定标签库在本页的前缀，自定义
+        uri 标签库的位置
+        <%@taglib prefix="pre" uri=""%>
+4、九大内置对象
+    4.1 JspWriter out Servlet输出流
+    4.2 ServletConfig config Servlet配置
+    4.3 Object page 当前页面
+    4.4 PageContext pageContext 页面上下文对象
+    4.5 Throwable exception 页面错误对象
+    4.6 HttpServletRequest request http请求数据封装
+    4.7 HttpServletResponse response http响应数据封装
+    4.8 ServletContext application 项目全局上下文对象
+    4.9 HttpSession session
+5、四大域对象
+    5.1 ServletContext application 一个项目
+    5.2 HttpSession session 一个会话
+    5.3 HttpServletRequest request 一个请求
+    5.4 PageContext pageContext 一个jsp页面，不同jsp标签共享数据
+        >可以是域对象
+        >代理其他域对象
+            pageContext.setAttribute("name","value",PageContext.SESSION_SCOPE)
+        >全域查找，由范围小的域到大的域
+        >获取其他8大内置对象
+              ServletRequest request = pageContext.getRequest();
+6.动作标签
+    jsp动作标签，与html标签不同，
+    动作标签时由服务器解释执行，与java代码类似，在服务端执行
+    html由浏览器执行
+    6.1 <jsp:forward> 同RequestDispatcher.forward()，属性 page=""
+    6.2 <jsp:include> 同RequestDispatcher.include，()属性 page=""
+    6.3 <jsp:param> 作为<jsp:forward> 和 <jsp:include> 的子标签
+        <jsp:include>
+            <jsp:param name="name" value="value"/>
+        </jsp:include>
+7.javaBean相关标签
+    7.1 <jsp:userBean  id="xx" class="com.xx.xx.Xxx" scope="session">
+        创建或查询bean
+    7.2 <jsp:setProperty property="name" value="value" name="xx"/>
+        设置xx实例的name属性为value
+    7.3 <jsp:getProperty property="name" name="xx"/>
+        获取xx实例的name属性
+8、EL表达式
+    jsp内置的表达式语言，替代<%= %>输出脚本
+    可以输出11个内置对象的内容
+        pageScope
+            Map<String,Object> pageScope
+        requestScope
+             Map<String,Object> requestScope
+        sessionScope
+             Map<String,Object> sessionScope
+        applicationScope
+             Map<String,Object> applicationScope
+        param
+            Map<String,String> param
+        paramValues
+            Map<String,String[]> paramValues
+        header
+            Map<String,String> header
+        headerValues
+            Map<String,String[]> headerValues
+        initParam
+            <context-init>内参数，再web.xml中
+            Map<String,String> initParam
+        cookie
+             Map<String,Cookie> cookie
+        pageContext
+            PageContext pageContext
+    javabean导航
+        ${student.name} <=> <%=  student.getName() %>
+9、EL函数库
+    由JSTL提供，使用时，需要提前导包jstl.jar
+        ${fn:toUpperCase("abc")}
+        ${fn:endsWith("aabc","c" )}
+        ${fn:join(arr,"-" )}
+        ${fn:substringAfter("hello-world","-" )}
+10、自定义EL函数库
+       10.1 写一个java类，可以定义至少零个静态方法,可以有参数和返回值，但是各个对象需要精确到包名
+            public class MyELFunction {
+
+                public static String fun(){
+                    return "my el function lib";
+                }
+            }
+       10.2 写一个tld文件
+            <?xml version="1.0" encoding="UTF-8" ?>
+            <taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+                    version="2.0">
+                <description>函数库描述</description>
+                <display-name>函数库名称</display-name>
+                <tlib-version>1.0</tlib-version>
+                <short-name>mfu</short-name>
+                <uri>http://www.jaki.com/el/myelfuntion</uri>
+
+                <function>
+                    <description>
+                        函数描述，可不写
+                    </description>
+                    <name>fun</name>
+                    <function-class>com.jaki.jserver.p07.el.MyELFunction</function-class>
+                    <function-signature>java.lang.String fun()</function-signature>
+                    <example>
+                        函数举例子，可不写
+                    </example>
+                </function>
+            </taglib>
+       10.3 再jsp页面中导包和调用
+            <%@taglib prefix="mfn" uri="http://www.jaki.com/el/myelfuntion" %>
+            ${mfn:fun()}
+11、JSTL是EL表达式的扩展，JSTL依赖EL，使用需要导包jstl.jar
+    11.1 core 核心库
+        out 输出
+            value可以是字符常量或者EL表达式
+            default 默认值
+            excapeXml 默认值true，表示转译
+               <p><c:out value="a" escapeXml="false" default="d"/></p>
+               <p><c:out value="${key}"/></p>
+        set 创建域属性
+            var 变量
+            value 值
+            scope 设置域 默认page 可选 request session application
+                 <c:set var="key" value="set_value" scope="page"/>
+        remove 删除域属性
+            var 变量名
+            scope 范围，如果不指定范围，则删除所有域下对应属性值
+                    <c:remove var="key" scope="page"/>
+        url
+            value 指定一个路径，它会自动在地址前添加项目，但是必须以“/”开头
+            param url的子标签，添加参数
+               <c:url value="/MyServlet">
+                        <c:param name="p1" value="1"></c:param>
+                        <c:param name="p2" value="2"></c:param>
+               </c:url>
+        if 同java if
+            test boolean值
+        choose 相当于java else
+            when 如果
+            otherwise 否则
+
+            <c:set var="score" value="10" scope="page"/>
+            <c:if test="${score > 90}">
+                <c:out value="优秀"/>
+            </c:if>
+            <c:choose>
+                <c:when test="${score > 80}">良好</c:when>
+                <c:when test="${score > 70}">合格</c:when>
+                <c:otherwise>不合格</c:otherwise>
+            </c:choose>
+        forEach 循环遍历
+            var 变量
+            begin 起始值
+            end 终止值
+            step 步长 默认值1
+            <c:forEach var="i" begin="1" end="10" step="1">
+                ${i}
+            </c:forEach>
+
+
+            item 集合或数组，只能从域属性中取值
+            varStatus 循环状态
+                count 循环元素个数
+                index 循环元素的下标
+                first 是否是第一个元素
+                last  是否是最后一个元素
+            <%
+                String[] items = {"aa","bb","cc"};
+                request.setAttribute("items",items);
+            %>
+            <c:forEach items="${items}" var="item" varStatus="vs">
+                ${item}
+                <c:if test="${vs.last}">最后一个元素</c:if>
+            </c:forEach>
+    11.2 fmt 文字和时间格式化
+        formatDate 格式化时间
+            value 要之格式化的值
+            pattern 格式化模板
+                <fmt:formatDate value="time" pattern="yyyy-MM-DD HH:mm:ss SSS"/>
+        formatNumber 格式化数字
+             value 要之格式化的值
+             pattern 格式化模板,0会自动补位，#不会补位
+            <fmt:formatNumber value="${number}" pattern="0.00"/>
+            <fmt:formatNumber value="${number}" pattern="#.##"/>
+    11.3 sql
+        过时
+    11.4 xml
+        过时
+12、自定义标签
+    12.1 写标签java处理类
+        SimpleTag 接口
+            void doTag() 执行标签，调用这个方法
+            void setJspBody(JspFragment frag) 设置标签体，和el标签相关
+            void setJspContext(JspContext c) 设置上下文，子类PageContext
+         SimpleTagSupport类
+         SkipPageException类 如果抛出这个异常，后续的逻辑都不会执行，一般放在doTag()中
+
+             /**
+              * 执行标签的逻辑，最后由服务器执行
+              * @throws JspException
+              * @throws IOException
+              */
+             @Override
+             public void doTag() throws JspException, IOException {
+                 getJspContext().getOut().write("my jstl tag 2222222");
+             }
+    12.2 写tld文件，配置标签
+        其中body-content标签可取如下四个值：
+            a) empty 无标签体
+            b) JSP 现已废弃
+            c) scriptless 只支持EL表达式或其他标签
+            d) tagdependent 标签体内容不会被执行，由赋值标签处理类直接执行
+
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+                version="2.0">
+            <description>JSTL库</description>
+            <display-name>JSTL库</display-name>
+            <tlib-version>1.0</tlib-version>
+            <short-name>mjstl</short-name>
+            <uri>http://www.jaki.com/jstl/mjstl</uri>
+
+
+            <tag>
+                <description>
+                   标签描述，非必须
+                </description>
+                <name>mjstl</name>
+                <tag-class>com.jaki.jserver.p07.el.MyJSTLTag</tag-class>
+                <body-content>empty</body-content>
+                <!--<attribute>-->
+                    <!--<description>-->
+                        <!--Name of character encoding to be applied when-->
+                        <!--decoding request parameters.-->
+                    <!--</description>-->
+                    <!--<name>value</name>-->
+                    <!--<required>false</required>-->
+                    <!--<rtexprvalue>true</rtexprvalue>-->
+                <!--</attribute>-->
+            </tag>
+        </taglib>
+
+    12.3 导入jstl标签库，并调用
+        <%@taglib prefix="mjstl" uri="http://www.jaki.com/jstl/mjstl" %>
+        <mjstl:mjstl/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

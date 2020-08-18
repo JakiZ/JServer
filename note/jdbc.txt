@@ -1,0 +1,22 @@
+1、jdbc使用步骤
+    1.1 导入驱动包
+        mysql8以下： mysql-connector-java-5.1.jar
+        mysql8： mysql-connector-java-8.0.jar
+
+    1.2 加载驱动类
+    1.3 给出
+        驱动类名：com.mysql.jdbc.Driver
+        url：jdbc:mysql://localhost:3306/jdbcs
+        url：jdbc:mysql://localhost:3306/jdbcs?userSSL=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT
+        用户名：root
+        密码：root
+    1.4 获取数据库连接对象java.sql.Connection
+2、ResultSet
+    ResultSetMetaData metaData = resultSet.getMetaData();
+    //返回结果集的列数
+    int columnCount = metaData.getColumnCount();
+    //返回指定列的列名
+    String columnName = metaData.getColumnName(1);
+
+3、sql攻击
+    select * from user where name='a' or 'a'='a'and password='a'or 'a' = 'a'

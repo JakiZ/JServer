@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <description>函数库描述</description>
+    <display-name>函数库名称</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>mfu</short-name>
+    <uri>http://www.jaki.com/el/myelfuntion</uri>
+
+    <function>
+        <description>
+            函数描述，可不写
+        </description>
+        <name>fun</name>
+        <function-class>com.jaki.jserver.p07.el.MyELFunction</function-class>
+        <function-signature>java.lang.String fun()</function-signature>
+        <example>
+            函数举例子，可不写
+        </example>
+    </function>
+</taglib>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><users>
+    <user>
+        <username>Jaki</username>
+        <password>1234</password>
+        <gender>1</gender>
+        <hobbies>读书,体育</hobbies>
+    </user>
+
+
+<user><username>joddy</username><password>123456</password><gender>1</gender><hobbies>[绘画]</hobbies></user><user><username>lucy</username><password/><gender>0</gender><hobbies>[绘画, 体育, 读书]</hobbies></user><user><username>2</username><password>123456</password><gender>0</gender><hobbies>[绘画, 读书]</hobbies></user><user><username>joddy</username><password>123456</password><gender>1</gender><hobbies>[绘画, 体育]</hobbies></user><user><username>joddy</username><password>123456</password><gender>1</gender><hobbies>[绘画]</hobbies></user></users>

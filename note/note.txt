@@ -1,0 +1,35 @@
+1、修改tomcat端口号
+    conf/server.xml
+         <Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
+         port字段，取值范围：1024-65535
+2、配置web外部应用
+     conf/server.xml
+     2.1 方式1：
+        <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+        <!--
+            docBase:配置项目文件的真实地址
+            path：配置访问的根路径
+        -->
+            <Context path="visitedRoot" docBase="D:\J2ee\Tomcat\outerapps\hello"> </Context>
+        </Host>
+
+        请求地址：http://localhost:8080/visitedRoot/index.html
+     2.2 方式2：
+        conf\Catalina\localhost\
+        新建一个文件文件名：outerapp_hello.xml
+        在文件内部编写以下代码：
+                <Context  docBase="D:\J2ee\Tomcat\outerapps\hello"> </Context>
+         请求地址：http://localhost:8080/outerapp_hello/index.html
+3、配置虚拟主机
+    3.1 修改tomcat端口号为80
+        conf/server.xml
+                 <Connector port="80" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
+    3.2 绑定本地地址：
+        C:\Windows\System32\drivers\etc\hosts
+           添加一行代码：
+           127.0.0.1       http://www.baidu.com
+    3.3 配置外部主机
+          conf/server.xml
+          Host平级添加Host标签
+           <Host name="www.baidu.com"  appBase="D:\J2ee\Tomcat\outerapps"
+                unpackWARs="true" autoDeploy="true"/>
